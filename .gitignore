@@ -1,6 +1,7 @@
 # TOKEN files
 StoneBot/config.ini
 StoneBot/config.py
+StoneBot/info.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
