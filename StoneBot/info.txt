@@ -2,4 +2,3 @@ Invite URL:
 https://discord.com/api/oauth2/authorize?client_id=1067441085498015784&permissions=1634235578432&scope=bot
 
 Bot token: 
-MTA2NzQ0MTA4NTQ5ODAxNTc4NA.GTH7cO.Ta8VOnP0XOupme7lN8cgN5xgR_3a3jQd_cbfZE
