@@ -19,8 +19,8 @@ def full_log(path):
     logger.addHandler(handler)
 
 
-def chat_log(path):
-    logger = logging.getLogger('StoneBot')
+def chat_log(path, guild):
+    logger = logging.getLogger(guild)
     logger.setLevel(logging.DEBUG)
 
     handler = logging.handlers.RotatingFileHandler(

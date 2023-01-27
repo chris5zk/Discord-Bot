@@ -1,3 +1,4 @@
+import os
 import log
 import time
 import discord
@@ -17,11 +18,15 @@ def run_discord_bot(token, full, chat):
     intents.message_content = True
     client = discord.Client(intents=intents)
 
+    # logger of full log dict and file
     filename = time.strftime('%Y-%m-%d')
+    os.makedirs(f'{full}/', exist_ok=True)
     log_path = f'{full}/{filename}.log'
-    chat_path = f'{chat}/{filename}.log'
     log.full_log(log_path)
-    chat_logger = log.chat_log(chat_path)
+
+    # guild & logger check
+    guild_set = set()
+    logger_dict = {}
 
     @client.event
     async def on_ready():
@@ -29,16 +34,24 @@ def run_discord_bot(token, full, chat):
 
     @client.event
     async def on_message(message):
-        if message.author == client.user:
-            return
-
+        # Alert!!! Didn't check the bot message loop yet!!!
 
         username = str(message.author)
         user_message = str(message.content)
         channel = str(message.channel)
+        guild = str(message.guild.name)
 
+        # build logger for each guild
+        if guild not in guild_set:
+            guild_set.add(guild.encode('unicode-escape', 'ignore').decode('unicode-escape'))
+            os.makedirs(f'./{chat}/{guild}/', exist_ok=True)
+            chat_path = f'{chat}/{guild}/{filename}.log'
+            chat_logger = log.chat_log(chat_path, guild)
+            logger_dict[guild] = chat_logger
+
+        # write to log file
         chat_str = f'[{channel}]{username}: {user_message}'
-        chat_logger.info(chat_str.encode('unicode-escape', 'ignore').decode('unicode-escape'))
+        logger_dict[guild].info(chat_str.encode('unicode-escape', 'ignore').decode('unicode-escape'))
 
         if user_message[0] == '?':
             user_message = user_message[1:]
