@@ -2,6 +2,8 @@
 StoneBot/config.ini
 StoneBot/config.py
 StoneBot/info.txt
+StoneBot/log
+StoneBot/chat
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
