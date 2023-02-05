@@ -20,23 +20,23 @@ async def on_ready():
 
 @bot.command()
 async def load(ctx, extension):
-    logging.getLogger('discord').info(f"{ctx.author} has load the {extension} cog.")
+    logging.getLogger('discord').info(f"【{extension}】 is loaded by {ctx.author}")
     await bot.load_extension(f'cmds.{extension}')
-    await ctx.send(f'Loaded {extension} done!')
+    await ctx.send(f'Loaded 【{extension}】 done!')
 
 
 @bot.command()
 async def unload(ctx, extension):
-    logging.getLogger('discord').info(f"{ctx.author} has unload the {extension} cog.")
+    logging.getLogger('discord').info(f"【{extension}】 is unloaded by {ctx.author}")
     await bot.unload_extension(f'cmds.{extension}')
-    await ctx.send(f'Unloaded {extension} done!')
+    await ctx.send(f'Unloaded 【{extension}】 done!')
 
 
 @bot.command()
 async def reload(ctx, extension):
-    logging.getLogger('discord').info(f"{ctx.author} has reload the {extension} cog.")
+    logging.getLogger('discord').info(f"【{extension}】 is reload by {ctx.author}")
     await bot.reload_extension(f'cmds.{extension}')
-    await ctx.send(f'Reloaded {extension} done!')
+    await ctx.send(f'Reloaded 【{extension}】 done!')
 
 
 async def init():
