@@ -1,6 +1,4 @@
-import logging
 import os
-import time
 
 from logging.config import dictConfig
 from dotenv import load_dotenv
@@ -9,6 +7,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DISCORD_API_SECRET = os.getenv('TOKEN')
+BACKEND_CHANNEL = os.getenv('BACKEND')
+WELCOME_CHANNEL = os.getenv('WELCOME')
+
 LOGGING_CONFIG = {
     "version": 1,
     "formatters": {
@@ -23,12 +24,11 @@ LOGGING_CONFIG = {
             "formatter": "default"
         },
         "file": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": f"logs/{time.strftime('%Y-%m-%d')}.log",
+            "class": "tools.log.MyTimedRotatingFileHandler",
+            "filename": f"logs/logfile.log",
             "formatter": "default",
-            "maxBytes": 128 * 1024 * 1024,
-            "backupCount": 24,
-            "encoding": 'utf-8'
+            "when": "midnight",
+            "backupCount": 0,
         }
     },
     "loggers": {

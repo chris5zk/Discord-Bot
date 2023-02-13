@@ -4,21 +4,25 @@ import logging
 import asyncio
 import os
 
+from tools.message import emoji
 from discord.ext import commands
 
 # Initialize bot
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
+intents.guilds = True
 bot = commands.Bot(intents=intents, command_prefix='>')
 
 
 @bot.event
 async def on_ready():
-    logging.getLogger('discord').info(f"{bot.user.name.encode('unicode-escape', 'ignore').decode('unicode-escape')} has connected to Discord!")
+    log_msg = f"{emoji(bot.user.name)} has connected to Discord!"
+    logging.getLogger('discord').info(log_msg)
 
 
 @bot.command()
+@commands.is_owner()
 async def load(ctx, extension):
     logging.getLogger('discord').info(f"【{extension}】 is loaded by {ctx.author}")
     await bot.load_extension(f'cmds.{extension}')
@@ -26,6 +30,7 @@ async def load(ctx, extension):
 
 
 @bot.command()
+@commands.is_owner()
 async def unload(ctx, extension):
     logging.getLogger('discord').info(f"【{extension}】 is unloaded by {ctx.author}")
     await bot.unload_extension(f'cmds.{extension}')
@@ -33,6 +38,7 @@ async def unload(ctx, extension):
 
 
 @bot.command()
+@commands.is_owner()
 async def reload(ctx, extension):
     logging.getLogger('discord').info(f"【{extension}】 is reload by {ctx.author}")
     await bot.reload_extension(f'cmds.{extension}')
