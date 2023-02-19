@@ -3,6 +3,7 @@ import discord
 import logging
 from discord.ext import commands
 from tools.extension import CogExtension
+from tools.log import log_message
 
 with open('data.json', 'r', encoding='utf8') as file:
     data = json.load(file)
@@ -18,7 +19,8 @@ class Response(CogExtension):
 
     @commands.command()
     async def hello(self, ctx):
-        logging.getLogger('discord').info(f"【{ctx.guild}】{str(ctx.author)} is using commands【>hello】")
+        log_msg = f'{ctx.author} is using commands【>hello】'
+        await log_message(self.backend, log_msg, guild=ctx.guild, channel=ctx.channel, command=True)
         await ctx.send("Hello!")
 
 

@@ -1,19 +1,23 @@
 import discord
-import logging
 from discord.ext import commands
 from tools.extension import CogExtension
+from tools.log import log_message
 
 
 class Backend(CogExtension):
     @commands.command()
     async def log(self, ctx, date):
         if ctx.message.author.guild_permissions.administrator:
-            log_msg = f'【{ctx.guild}】{str(ctx.author)} is using commands【>log】'
-            logging.getLogger('discord').info(log_msg)
-            await ctx.send(f'Log file of {date}', file=discord.File(f'.\\logs\\{date}.log'))
+            log_msg = f'{ctx.author} is using commands【>log】'
+            await log_message(self.backend, log_msg, guild=ctx.guild, channel=ctx.channel, command=True)
+            try:
+                await ctx.send(f'Log file of {date}', file=discord.File(f'.\\logs\\logfile_{date}.log'))
+            except FileNotFoundError:
+                await ctx.send(f'Log file not found!!!')
         else:
-            logging.getLogger('discord').info(f'【{ctx.guild}】{str(ctx.author)} has no permissions for using command【>log】')
-            await ctx.send(f'{ctx.message.author.mention}, you have no permission for doing this.')
+            log_msg = f'{ctx.author} has no permissions for using command【>log】'
+            await log_message(self.backend, log_msg, guild=ctx.guild, channel=ctx.channel, command=0)
+            await ctx.send(f'{ctx.author.mention}, You have no permission!!!')
 
     # @commands.command()
     # async def audit(self, ctx):
