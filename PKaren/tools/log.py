@@ -20,12 +20,13 @@ def rotator_namer(filename):
 
 async def log_message(backend, log_msg, guild=None, channel='Server', command=None):
     logging.getLogger('discord').info(f"【{guild}】{log_msg} ({channel})")
+    prefix = f'[{datetime.now().strftime(tfm)}][INFO ][{channel}]'
     if command:
-        content = f"+ [{datetime.now().strftime(tfm)}][INFO ][{channel}] {log_msg}\n"
+        content = f"+ {prefix} {log_msg}\n"
     elif command == 0:
-        content = f"- [{datetime.now().strftime(tfm)}][INFO ][{channel}] {log_msg}\n"
+        content = f"- {prefix} {log_msg}\n"
     else:
-        content = f"[{datetime.now().strftime(tfm)}][INFO ][{channel}] {log_msg}\n"
+        content = f"{prefix} {log_msg}\n"
 
     global edit_cal, msg_id
     if edit_cal % 10 == 0:

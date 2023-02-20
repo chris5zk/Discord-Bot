@@ -11,7 +11,8 @@ intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 intents.guilds = True
-bot = commands.Bot(intents=intents, command_prefix='>')
+intents.invites = True
+bot = commands.Bot(intents=intents, command_prefix=';;')
 
 
 @bot.event
