@@ -9,6 +9,7 @@ load_dotenv()
 DISCORD_API_SECRET = os.getenv('TOKEN')
 BACKEND_CHANNEL = os.getenv('BACKEND')
 WELCOME_CHANNEL = os.getenv('WELCOME')
+LEAVE_CHANNEL = os.getenv('LEAVE')
 
 LOGGING_CONFIG = {
     "version": 1,

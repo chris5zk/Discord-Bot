@@ -1,12 +1,10 @@
-import json
 import discord
-import logging
 from discord.ext import commands
 from tools.extension import CogExtension
 from tools.log import log_message
+from tools.data import get_json
 
-with open('data.json', 'r', encoding='utf8') as file:
-    data = json.load(file)
+data = get_json()
 
 
 class Response(CogExtension):

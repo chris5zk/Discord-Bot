@@ -1,13 +1,16 @@
+import discord
+from datetime import datetime
 from discord.ext import commands
 from tools.extension import CogExtension
 from tools.log import log_message
+from tools.data import get_json
 
 
 class Listener(CogExtension):
     # Messages Listener
     @commands.Cog.listener()
     async def on_message(self, msg):
-        if msg.channel != self.backend and msg.channel != self.welcome:
+        if msg.channel != self.backend and msg.channel != self.welcome and msg.channel != self.leave:
             if not msg.content.startswith(self.bot.command_prefix):
                 urls = [x.url for x in msg.attachments]
                 log_msg = f"{msg.author}: {msg.content} {urls if urls else ''}"
@@ -28,13 +31,26 @@ class Listener(CogExtension):
     # Members Listeners
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        log_msg = f"{member} join the server!!"
-        await self.welcome.send(log_msg)
+        log_msg = f'{member} join the server.'
+        embed = discord.Embed(title=f"Welcome to {member.guild}", description=f"Hello {member.mention}, relax and enjoy!", color=0x45cacd,
+                              timestamp=datetime.now())
+        embed.set_author(name="PKaren Bot", icon_url=self.bot.user.avatar.url, url="")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1077626848709709934/1077627286708306093/image.png")
+        fields = [("Server Owner", f"{member.guild.owner.mention}", True),
+                  ("Assistant", f"{self.bot.user.mention}", True),
+                  ("Server Created At", f"{member.guild.created_at.strftime('%Y-%m-%d')}", False)]
+        for name, value, inline in fields:
+            embed.add_field(name=name, value=value, inline=inline)
+        embed.set_image(url="https://media.discordapp.net/attachments/1077626848709709934/1077627200620204102/images.png")
+        embed.set_footer(text="Timestamp")
+        await self.welcome.send(embed=embed)
+        await log_message(self.backend, log_msg, guild=member.guild, command=True)
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
-        log_msg = f"{member} leave the server!!"
-        await self.welcome.send(log_msg)
+        log_msg = f"{member} leave the server."
+        await self.leave.send(log_msg)
+        await log_message(self.backend, log_msg, guild=member.guild, command=0)
 
     # Guilds Listeners
     @commands.Cog.listener()
