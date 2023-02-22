@@ -1,11 +1,10 @@
 # Discord-Bot
 
----
 ### Development Environment
 - python 3.9
 - discord.py 2.1.0
 - Windows 11
----
+
 ### Folder path
 ```
 ./Discord Bot
@@ -23,6 +22,6 @@
         │  config.py
         └─ data.json
 ```
----
+
 ### How to use it?
 To be continued...
