@@ -13,7 +13,12 @@ class Listener(CogExtension):
         if msg.channel != self.backend and msg.channel != self.welcome and msg.channel != self.leave:
             if not msg.content.startswith(self.bot.command_prefix):
                 urls = [x.url for x in msg.attachments]
-                log_msg = f"{msg.author}: {msg.content} {urls if urls else ''}"
+                stickers = [x.url for x in msg.stickers]
+                if msg.reference:
+                    re_msg = await msg.channel.fetch_message(msg.reference.message_id)
+                    reply = f"-> reply {msg.reference.jump_url} by {re_msg.author}"
+                log_msg = f"{msg.author}: {msg.content} {urls if urls else ''} {f'(Stickers: {stickers})' if stickers else ''} ({msg.id})" \
+                          f"{reply if msg.reference else ''}"
                 await log_message(self.backend, log_msg, guild=msg.guild, channel=msg.channel)
 
     @commands.Cog.listener()
@@ -25,7 +30,7 @@ class Listener(CogExtension):
     @commands.Cog.listener()
     async def on_message_delete(self, msg):
         if msg.channel != self.backend:
-            log_msg = f'Message of {msg.author} is deleted: {msg.content}'
+            log_msg = f'Message of {msg.author} is deleted: {msg.content} ({msg.id})'
             await log_message(self.backend, log_msg, guild=msg.guild, channel=msg.channel, command=0)
 
     # Members Listeners
