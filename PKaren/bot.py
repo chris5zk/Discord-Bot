@@ -12,7 +12,7 @@ intents.message_content = True
 intents.members = True
 intents.guilds = True
 intents.invites = True
-bot = commands.Bot(intents=intents, command_prefix=';;')
+bot = commands.Bot(intents=intents, command_prefix=';;', application_id="1069921770234204180")
 
 
 @bot.event

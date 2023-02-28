@@ -10,13 +10,12 @@ class Listener(CogExtension):
     # Messages Listener
     @commands.Cog.listener()
     async def on_message(self, msg):
-        if msg.channel != self.backend and msg.channel != self.welcome and msg.channel != self.leave:
+        if msg.channel != self.backend and msg.channel != self.welcome and msg.channel != self.leave and msg.channel != self.announce:
             if not msg.content.startswith(self.bot.command_prefix):
                 urls = [x.url for x in msg.attachments]
                 stickers = [x.url for x in msg.stickers]
                 if msg.reference:
-                    re_msg = await msg.channel.fetch_message(msg.reference.message_id)
-                    reply = f"-> reply {msg.reference.jump_url} by {re_msg.author}"
+                    reply = f" -> reply {msg.reference.jump_url} by {msg.reference.resolved.author if msg.reference.resolved else 'Unknown'}"
                 log_msg = f"{msg.author}: {msg.content} {urls if urls else ''} {f'(Stickers: {stickers})' if stickers else ''} ({msg.id})" \
                           f"{reply if msg.reference else ''}"
                 await log_message(self.backend, log_msg, guild=msg.guild, channel=msg.channel)
@@ -40,7 +39,7 @@ class Listener(CogExtension):
         embed = discord.Embed(title=f"Welcome to {member.guild}", description=f"Hello {member.mention}, relax and enjoy!", color=0x45cacd,
                               timestamp=datetime.now())
         embed.set_author(name="PKaren Bot", icon_url=self.bot.user.avatar.url, url="")
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1077626848709709934/1077627286708306093/image.png")
+        embed.set_thumbnail(url=member.guild.icon)
         fields = [("Server Owner", f"{member.guild.owner.mention}", True),
                   ("Assistant", f"{self.bot.user.mention}", True),
                   ("Server Created At", f"{member.guild.created_at.strftime('%Y-%m-%d')}", False)]

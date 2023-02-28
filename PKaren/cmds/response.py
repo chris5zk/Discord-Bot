@@ -1,4 +1,5 @@
 import discord
+from discord import app_commands
 from discord.ext import commands
 from tools.extension import CogExtension
 from tools.log import log_message
@@ -19,11 +20,11 @@ class Response(CogExtension):
         if msg.content in data['key_word_3']:
             await msg.channel.send(file=discord.File(data['pic_3']), reference=msg, mention_author=False)
 
-    @commands.command()
-    async def hello(self, ctx):
-        log_msg = f'{ctx.author} is using commands【>hello】'
-        await log_message(self.backend, log_msg, guild=ctx.guild, channel=ctx.channel, command=True)
-        await ctx.reply('Hello!', mention_author=True)
+    @app_commands.command(name="hello", description="say hello")
+    async def hello(self, interaction: discord.Interaction):
+        log_msg = f'{interaction.user} is using commands【>hello】'
+        await log_message(self.backend, log_msg, guild=interaction.guild, channel=interaction.channel, command=True)
+        await interaction.response.send_message('Hello!')
 
 
 async def setup(bot):

@@ -10,6 +10,7 @@ DISCORD_API_SECRET = os.getenv('TOKEN')
 BACKEND_CHANNEL = os.getenv('BACKEND')
 WELCOME_CHANNEL = os.getenv('WELCOME')
 LEAVE_CHANNEL = os.getenv('LEAVE')
+ANNOUNCE_CHANNEL = os.getenv('ANNOUNCEMENT')
 
 LOGGING_CONFIG = {
     "version": 1,
